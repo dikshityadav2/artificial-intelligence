@@ -1,0 +1,142 @@
+<aiml>
+
+<!-- This is the main AIML file that defines how the bot responds to user inputs -->
+
+<!-- Core definitions: Handles "WHAT IS" questions for different concepts -->
+<category>
+  <pattern>WHAT IS *</pattern> <!-- Matches any input starting with "WHAT IS" followed by anything -->
+  <template>
+    <!-- Store the user's input (the part after "WHAT IS") in a variable called "concept" and convert it to lowercase -->
+    <think><set name="concept"><lowercase><star/></lowercase></set></think>
+    <!-- Check the value of "concept" and respond with the right definition -->
+    <condition name="concept">
+      <li value="long-term knowledge">Long-term knowledge is valid over a period of time.</li>
+      <li value="short-term knowledge">Short-term knowledge is only valid for a particular situation or run of a programme.</li>
+      <li value="generic knowledge">Generic knowledge is relevant to more than one application or domain.</li>
+      <li value="domain-specific knowledge">Domain-specific knowledge is only applicable to one specific application or domain.</li>
+      <li value="a fact">A fact is a statement which asserts that a relationship holds for an object-subject pair.</li>
+      <li value="a rule">A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.</li>
+      <li value="a rule mybot"><srai>WHAT IS a rule</srai></li> <!-- Redirects "a rule mybot" to the definition of "a rule" -->
+      <li value="the way that aiml allows variables in its long-term knowledge">AIML has wildcards and srai for that purpose.</li>
+      <li value="the way aiml supports context during a conversation">AIML supports context through the use of the that tag to refer to previous bot answers, and via setting variables such as topic.</li>
+    </condition>
+  </template>
+</category>
+
+<!-- Examples: Handles "GIVE ME AN EXAMPLE OF" questions -->
+<category>
+  <pattern>GIVE ME AN EXAMPLE OF *</pattern> <!-- Matches inputs like "GIVE ME AN EXAMPLE OF something" -->
+  <template>
+    <!-- Store the user's input (the part after "GIVE ME AN EXAMPLE OF") in a variable called "example" -->
+    <think><set name="example"><lowercase><star/></lowercase></set></think>
+    <!-- Check the value of "example" and provide the appropriate example -->
+    <condition name="example">
+      <li value="long-term generic knowledge">Generative AI frequently hallucinates and produces incorrect results.</li>
+      <li value="long-term domain-specific knowledge">The formal specification of a particular machine learning algorithm.</li>
+      <li value="short-term generic knowledge">The date today is an example as it may be useful in different contexts but only lasts 24 hours.</li>
+      <li value="short-term domain-specific knowledge">The deadline for the submission of this portfolio.</li>
+      <li value="a fact">Submissions for this module are run through automatic and effective plagiarism checks.</li>
+      <li value="a rule">If submitsOthersWork(X) then commitsAssessmentOffence(X).</li>
+    </condition>
+  </template>
+</category>
+
+<!-- Context-sensitive questions: Responds to "WHY IS KNOWING THAT USEFUL" based on previous bot responses -->
+<category>
+  <pattern>WHY IS KNOWING THAT USEFUL</pattern>
+  <that>SUBMISSIONS FOR THIS MODULE ARE RUN THROUGH AUTOMATIC AND EFFECTIVE PLAGIARISM CHECKS</that> <!-- Only triggers if the bot previously said this -->
+  <template>To remind you that we take assessment offences very seriously.</template>
+</category>
+
+<category>
+  <pattern>WHY IS KNOWING THAT USEFUL</pattern>
+  <that>AIML HAS WILDCARDS AND SRAI FOR THAT PURPOSE</that> <!-- Triggers if the bot mentioned wildcards and srai -->
+  <template>Because it allows us to make statements that apply to classes of things or questions.</template>
+</category>
+
+<category>
+  <pattern>WHY IS KNOWING THAT USEFUL</pattern>
+  <that>AIML SUPPORTS CONTEXT THROUGH THE USE OF THE THAT TAG TO REFER TO PREVIOUS BOT ANSWERS AND VIA SETTING VARIABLES SUCH AS TOPIC</that> <!-- Triggers if the bot mentioned context support -->
+  <template>Because some words like that and it can only be understood in the context of previous sentences.</template>
+</category>
+
+<!-- Definition redirects: Converts certain questions into "WHAT IS" questions -->
+<category>
+  <pattern>GIVE ME A DEFINITION OF *</pattern> <!-- Redirects to "WHAT IS" for consistency -->
+  <template><srai>WHAT IS <star/></srai></template>
+</category>
+
+<category>
+  <pattern>TELL ME ABOUT *</pattern> <!-- Redirects to "WHAT IS" for consistency -->
+  <template><srai>WHAT IS <star/></srai></template>
+</category>
+
+<!-- Example redirects: Converts certain questions into "GIVE ME AN EXAMPLE OF" questions -->
+<category>
+  <pattern>ILLUSTRATE THE CONCEPT OF *</pattern> <!-- Redirects to "GIVE ME AN EXAMPLE OF" -->
+  <template><srai>GIVE ME AN EXAMPLE OF <star/></srai></template>
+</category>
+
+<!-- Specific AIML questions: Direct answers for specific AIML-related questions -->
+<category>
+  <pattern>WHAT IS THE WAY THAT AIML ALLOWS VARIABLES IN ITS LONG TERM KNOWLEDGE</pattern>
+  <template>AIML has wildcards and srai for that purpose.</template>
+</category>
+
+<category>
+  <pattern>WHAT IS THE WAY AIML SUPPORTS CONTEXT DURING A CONVERSATION</pattern>
+  <template>AIML supports context through the use of the that tag to refer to previous bot answers, and via setting variables such as topic.</template>
+</category>
+
+<!-- Specific MYBOT questions: Handles variations of asking about rules for "MYBOT" -->
+<category>
+  <pattern>WHAT IS A RULE MYBOT</pattern>
+  <template><srai>WHAT IS a rule</srai></template> <!-- Redirects to the definition of "a rule" -->
+</category>
+
+<category>
+  <pattern>PLEASE MYBOT WHAT IS A RULE</pattern>
+  <template><srai>WHAT IS a rule</srai></template> <!-- Redirects to the definition of "a rule" -->
+</category>
+
+<category>
+  <pattern>MYBOT PLEASE GIVE ME A DEFINITION OF A RULE</pattern>
+  <template><srai>WHAT IS a rule</srai></template> <!-- Redirects to the definition of "a rule" -->
+</category>
+
+<!-- Additional example variations: Handles different ways of asking for examples -->
+<category>
+  <pattern>PROVIDE AN EXAMPLE OF *</pattern>
+  <template><srai>GIVE ME AN EXAMPLE OF <star/></srai></template> <!-- Redirects to "GIVE ME AN EXAMPLE OF" -->
+</category>
+
+<category>
+  <pattern>PLEASE PROVIDE AN EXAMPLE OF *</pattern>
+  <template><srai>GIVE ME AN EXAMPLE OF <star/></srai></template> <!-- Redirects to "GIVE ME AN EXAMPLE OF" -->
+</category>
+
+<category>
+  <pattern>PLEASE GIVE ME AN EXAMPLE OF *</pattern>
+  <template><srai>GIVE ME AN EXAMPLE OF <star/></srai></template> <!-- Redirects to "GIVE ME AN EXAMPLE OF" -->
+</category>
+
+<!-- Catch-all: Handles any unmatched inputs and redirects to specific patterns if they match -->
+<category>
+  <pattern>*</pattern> <!-- Matches any input not covered by previous patterns -->
+  <template>
+    <!-- Store the user's input in a variable called "input" and convert it to lowercase -->
+    <think><set name="input"><lowercase><star/></lowercase></set></think>
+    <!-- Check if the input matches specific example requests and redirect accordingly -->
+    <condition name="input">
+      <li value="provide an example of long-term generic knowledge"><srai>GIVE ME AN EXAMPLE OF long-term generic knowledge</srai></li>
+      <li value="provide an example of long-term domain-specific knowledge"><srai>GIVE ME AN EXAMPLE OF long-term domain-specific knowledge</srai></li>
+      <li value="provide an example of short-term generic knowledge"><srai>GIVE ME AN EXAMPLE OF short-term generic knowledge</srai></li>
+      <li value="provide an example of short-term domain-specific knowledge"><srai>GIVE ME AN EXAMPLE OF short-term domain-specific knowledge</srai></li>
+      <li value="provide an example of a rule"><srai>GIVE ME AN EXAMPLE OF a rule</srai></li>
+      <li value="provide an example of a fact"><srai>GIVE ME AN EXAMPLE OF a fact</srai></li>
+      <li><srai><star/></srai></li> <!-- If no match, pass the input as-is to try other patterns -->
+    </condition>
+  </template>
+</category>
+
+</aiml>
